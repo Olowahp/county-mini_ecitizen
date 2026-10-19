@@ -1,0 +1,7 @@
+/storage/*.sqlite
+/uploads/requests/*
+!/uploads/requests/.gitkeep
+.env
+
+/uploads/news/*
+!/uploads/news/.gitkeep

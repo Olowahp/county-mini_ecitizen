@@ -1,0 +1,81 @@
+-- Murang'a County Public Service Portal - MySQL/MariaDB schema
+-- Create/select database muranga_citizen in phpMyAdmin, then import this file.
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS=0;
+CREATE TABLE IF NOT EXISTS users (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(160) NOT NULL, email VARCHAR(190) NOT NULL UNIQUE, phone VARCHAR(40) NULL,
+ password_hash VARCHAR(255) NOT NULL,
+ role ENUM('citizen','staff','admin','super_admin') NOT NULL DEFAULT 'citizen',
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS categories (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(160) NOT NULL UNIQUE, description TEXT NULL, is_active TINYINT(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS requests (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ reference_no VARCHAR(60) NOT NULL UNIQUE, user_id INT UNSIGNED NOT NULL, category_id INT UNSIGNED NOT NULL,
+ location VARCHAR(255) NOT NULL, description TEXT NOT NULL, image_path VARCHAR(500) NULL,
+ status ENUM('Pending','In Progress','Resolved') NOT NULL DEFAULT 'Pending', admin_note TEXT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ CONSTRAINT fk_requests_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+ CONSTRAINT fk_requests_category FOREIGN KEY(category_id) REFERENCES categories(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS status_history (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, request_id INT UNSIGNED NOT NULL,
+ status VARCHAR(40) NOT NULL, note TEXT NULL, changed_by INT UNSIGNED NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY(request_id) REFERENCES requests(id) ON DELETE CASCADE,
+ FOREIGN KEY(changed_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS password_resets (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT UNSIGNED NOT NULL,
+ token_hash VARCHAR(255) NOT NULL, expires_at DATETIME NOT NULL, used_at DATETIME NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+ INDEX idx_password_resets_user(user_id), INDEX idx_password_resets_token(token_hash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS news_posts (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL,
+ slug VARCHAR(255) NOT NULL UNIQUE, category VARCHAR(100) NOT NULL DEFAULT 'News',
+ summary TEXT NOT NULL, body LONGTEXT NOT NULL, image_path VARCHAR(500) NULL,
+ status ENUM('Draft','Published') NOT NULL DEFAULT 'Draft', published_at DATETIME NULL,
+ created_by INT UNSIGNED NULL, created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS water_payments (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, request_id INT UNSIGNED NOT NULL,
+ amount DECIMAL(12,2) NOT NULL,
+ payment_status ENUM('Awaiting Payment','Code Submitted','Verified','Rejected') NOT NULL DEFAULT 'Awaiting Payment',
+ mpesa_code VARCHAR(40) NULL, admin_note TEXT NULL, requested_by INT UNSIGNED NULL, verified_by INT UNSIGNED NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(request_id) REFERENCES requests(id) ON DELETE CASCADE,
+ FOREIGN KEY(requested_by) REFERENCES users(id) ON DELETE SET NULL,
+ FOREIGN KEY(verified_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS business_licence_rates (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ business_size ENUM('Small','Medium','Large') NOT NULL,
+ term_years TINYINT UNSIGNED NOT NULL, fee_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+ UNIQUE KEY uq_business_rate(business_size,term_years)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS business_licences (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, reference_no VARCHAR(60) NOT NULL UNIQUE,
+ user_id INT UNSIGNED NOT NULL, application_type ENUM('Registration','Renewal') NOT NULL,
+ existing_licence_no VARCHAR(100) NOT NULL DEFAULT '', id_number VARCHAR(40) NOT NULL,
+ phone VARCHAR(40) NOT NULL, business_name VARCHAR(255) NOT NULL,
+ business_size ENUM('Small','Medium','Large') NOT NULL, term_years TINYINT UNSIGNED NOT NULL,
+ subcounty VARCHAR(120) NOT NULL, ward VARCHAR(120) NOT NULL, area VARCHAR(255) NOT NULL,
+ fee_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+ application_status ENUM('Submitted','Under Review','Approved','Rejected') NOT NULL DEFAULT 'Submitted',
+ payment_status ENUM('Awaiting Payment','Code Submitted','Verified','Rejected') NOT NULL DEFAULT 'Awaiting Payment',
+ mpesa_code VARCHAR(40) NOT NULL DEFAULT '', admin_note TEXT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+SET FOREIGN_KEY_CHECKS=1;
