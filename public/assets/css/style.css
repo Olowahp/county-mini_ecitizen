@@ -38,3 +38,155 @@ input, select, textarea { max-width:100%; }
 img { max-width:100%; }
 @media (max-width: 760px) { .topbar { align-items:flex-start; flex-direction:column; gap:14px; } .topbar nav { width:100%; display:flex; flex-wrap:wrap; gap:8px 14px; } .container { width:min(100% - 28px, 1120px); } .page-header { gap:18px; align-items:flex-start; flex-direction:column; } .hero-actions { flex-wrap:wrap; } .table-wrap { overflow-x:auto; } .panel { padding:18px; } }
 
+<<<<<<< HEAD
+
+/* ================================================================
+   Readability and accessibility polish — styling only.
+   Keeps the existing Murang'a County interface, layout and colours.
+   ================================================================ */
+:root {
+  --text-main: #26352d;
+  --text-muted: #5f7067;
+  --border-strong: #cbd8d0;
+  --focus-ring: rgba(8, 120, 62, .17);
+  --surface-soft: #f6f9f7;
+}
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.65;
+  font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+p, li { line-height: 1.7; }
+small, .small, .muted, .page-header p, .section-heading p,
+.panel-heading p, .service-card p, .empty-state p { line-height: 1.55; }
+.brand strong, h1, h2, h3, h4, h5, h6,
+.page-header h1, .section-heading h2, .panel h2,
+.form-card h2, .auth-aside h1, .bottom-cta h2 {
+  color: #183b2a;
+  line-height: 1.3;
+}
+.eyebrow { font-size: 11px; line-height: 1.5; letter-spacing: 1.25px; }
+.container { width: 100%; }
+
+/* Links remain recognisable and easy to read */
+a { text-underline-offset: 3px; }
+.text-link, .table-link, .reference, .service-card > a { font-weight: 700; }
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid rgba(8, 120, 62, .28);
+  outline-offset: 2px;
+}
+
+/* All form elements: consistent height, contrast, spacing and focus state */
+label, .form-label, .stack-form label {
+  color: #293e32;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+input, select, textarea, button, .btn, table, th, td { font-family: inherit; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+select, textarea,
+.stack-form input, .stack-form select, .stack-form textarea,
+.filter-form input, .filter-form select, .role-form select,
+.form-control, .form-select {
+  color: #26352d;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 46px;
+  padding: 10px 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: none;
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+textarea, .stack-form textarea, textarea.form-control { min-height: 120px; resize: vertical; }
+input::placeholder, textarea::placeholder, .form-control::placeholder { color: #78877f; opacity: 1; }
+input:focus, select:focus, textarea:focus,
+.stack-form input:focus, .stack-form select:focus, .stack-form textarea:focus,
+.filter-form input:focus, .filter-form select:focus,
+.form-control:focus, .form-select:focus {
+  border-color: #278754;
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+input:disabled, select:disabled, textarea:disabled,
+.form-control:disabled, .form-select:disabled { background: #f0f3f1; color: #69766f; cursor: not-allowed; }
+input[type="checkbox"], input[type="radio"], .form-check-input { accent-color: var(--green); }
+.form-check-label { font-size: 14px; line-height: 1.55; }
+.stack-form { gap: 18px; }
+.stack-form label { gap: 8px; }
+.stack-form small, .optional, .form-text { color: var(--text-muted); font-size: 12px; line-height: 1.55; }
+.form-switch { font-size: 13px; }
+
+/* Buttons: more readable labels without changing the established design */
+.button, .btn, .nav-cta, button {
+  font-family: inherit;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.button, .btn { font-size: 14px; }
+.button { min-height: 42px; }
+.button.small, .btn-sm { min-height: 34px; font-size: 12px; }
+button:disabled, .button:disabled, .btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+/* Panels, notices and page headings */
+.page-header { padding-top: 38px; padding-bottom: 28px; }
+.page-header h1 { font-size: clamp(26px, 3vw, 34px); letter-spacing: -.6px; }
+.page-header p, .section-heading p, .panel-heading p { font-size: 14px; color: var(--text-muted); }
+.panel { padding: clamp(18px, 2.2vw, 26px); }
+.panel-heading h2 { font-size: 19px; }
+.section-heading h2 { font-size: clamp(22px, 2.5vw, 27px); }
+.alert, .notice, .flash, .alert-success, .alert-danger, .alert-warning, .alert-info {
+  font-size: 14px;
+  line-height: 1.65;
+  border-radius: 9px;
+  padding: 13px 16px;
+}
+
+/* Tables: legible row text, strong headings and responsive scrolling */
+.table-wrap { width: 100%; border-radius: 9px; }
+table { font-size: 13px; color: #2b3a31; }
+th { color: #42574a; font-size: 11px; letter-spacing: .55px; line-height: 1.5; }
+th, td { padding: 13px 14px; }
+td { font-size: 13px; line-height: 1.55; }
+td small, td .muted { font-size: 12px; }
+
+/* Common dashboard and content helpers */
+.stat-card > span, .stat-card small { font-size: 13px; line-height: 1.55; }
+.stat-card strong { line-height: 1.25; }
+.status-pill { font-size: 11px; line-height: 1.4; padding: 5px 9px; }
+.empty-state p, .table-foot { font-size: 13px; }
+.service-card h3 { font-size: 15px; line-height: 1.45; }
+.service-card p { font-size: 13px; color: var(--text-muted); }
+.service-card > a, .text-link { font-size: 13px; }
+.footer { font-size: 12px; line-height: 1.65; }
+.footer strong { font-size: 13px; }
+.footer p { line-height: 1.7; }
+
+/* News, long-form content, and uploaded notice images */
+article, .news-content, .news-body, .content-body { line-height: 1.8; overflow-wrap: anywhere; }
+article p, .news-content p, .news-body p, .content-body p { margin-bottom: 1rem; }
+img { height: auto; }
+
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  .container { padding-left: 16px; padding-right: 16px; }
+  .panel { padding: 17px; }
+  .stack-form { gap: 15px; }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+  select, textarea, .form-control, .form-select { font-size: 16px; }
+  th, td { padding: 11px 12px; }
+  .footer { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+=======
+>>>>>>> cc43cddd7a1b7ba59164f4f2afdc3c06558a108e

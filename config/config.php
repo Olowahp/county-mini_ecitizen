@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     'app_name' => "Murang'a County Public Service Portal",
     'base_url' => '',
-    // MySQL/MariaDB connection settings (XAMPP defaults shown; change for hosting).
+    // MySQL/MariaDB connection settings (XAMPP defaults shown; change for hosting for my project).
     'db_host' => getenv('DB_HOST') ?: '127.0.0.1',
     'db_port' => (int)(getenv('DB_PORT') ?: 3306),
     'db_name' => getenv('DB_NAME') ?: 'muranga_citizen',
