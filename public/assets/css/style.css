@@ -38,12 +38,6 @@ input, select, textarea { max-width:100%; }
 img { max-width:100%; }
 @media (max-width: 760px) { .topbar { align-items:flex-start; flex-direction:column; gap:14px; } .topbar nav { width:100%; display:flex; flex-wrap:wrap; gap:8px 14px; } .container { width:min(100% - 28px, 1120px); } .page-header { gap:18px; align-items:flex-start; flex-direction:column; } .hero-actions { flex-wrap:wrap; } .table-wrap { overflow-x:auto; } .panel { padding:18px; } }
 
-<<<<<<< HEAD
-
-/* ================================================================
-   Readability and accessibility polish — styling only.
-   Keeps the existing Murang'a County interface, layout and colours.
-   ================================================================ */
 :root {
   --text-main: #26352d;
   --text-muted: #5f7067;
@@ -188,5 +182,124 @@ img { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
-=======
->>>>>>> cc43cddd7a1b7ba59164f4f2afdc3c06558a108e
+
+
+/* Form polish: clear label separation, visible field borders, and typing feedback */
+.stack-form label,
+.form-group > label,
+.form-label,
+label.form-label {
+  display: block;
+  color: #244a35;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 7px;
+}
+
+/* Give standalone labels a subtle green accent without changing page layout */
+.form-group > label,
+.form-label,
+label.form-label {
+  padding: 3px 0 3px 9px;
+  border-left: 3px solid var(--green, #08783e);
+}
+
+/* Fields have a defined border and a subtle background while the user types */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+select,
+textarea,
+.form-control,
+.form-select {
+  border: 1.5px solid #bdcec2;
+  border-radius: 9px;
+  background-color: #fff;
+  color: #20392b;
+  caret-color: #08783e;
+  transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus,
+select:focus,
+textarea:focus,
+.form-control:focus,
+.form-select:focus {
+  border-color: #08783e !important;
+  background-color: #f1faf4;
+  color: #173d28;
+  box-shadow: 0 0 0 4px rgba(8, 120, 62, .14) !important;
+  outline: none;
+}
+
+/* Browser validation feedback after interaction */
+input:user-valid,
+select:user-valid,
+textarea:user-valid,
+.form-control:user-valid,
+.form-select:user-valid { border-color: #278754; }
+
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid,
+.form-control:user-invalid,
+.form-select:user-invalid { border-color: #c24135; }
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible { outline: 3px solid rgba(8, 120, 62, .22); outline-offset: 2px; }
+
+input[type="checkbox"], input[type="radio"] { accent-color: #08783e; }
+button[type="submit"], input[type="submit"], .button.primary, .btn-primary {
+  min-height: 42px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+@media (max-width: 650px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+  select, textarea, .form-control, .form-select { font-size: 16px; min-height: 46px; }
+  textarea, textarea.form-control { min-height: 120px; }
+}
+
+
+/* Portal-wide form finishing: bordered labels, readable controls and typing feedback. */
+:root { --form-focus: #08783e; --form-focus-bg: #f0faf3; --form-error: #b42318; --form-success: #18794e; }
+.stack-form label, .news-form-grid label, .admin-licence-review label,
+.panel form label, .content-narrow form label, .form-card form label {
+  display: block;
+  color: #263b2f;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+  padding: 9px 11px;
+  border: 1px solid #d8e4dc;
+  border-left: 3px solid #08783e;
+  border-radius: 8px;
+  background: #fbfdfb;
+}
+.stack-form label input, .stack-form label select, .stack-form label textarea,
+.news-form-grid label input, .news-form-grid label select, .news-form-grid label textarea,
+.panel form label input, .panel form label select, .panel form label textarea,
+.content-narrow form label input, .content-narrow form label select, .content-narrow form label textarea {
+  margin-top: 6px;
+}
+/* Keep checkbox/radio rows compact rather than turning them into large field cards. */
+label:has(input[type="checkbox"]), label:has(input[type="radio"]),
+.form-check label, .form-check-label { border: 0; border-radius: 0; background: transparent; padding: 3px 0; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus,
+select:focus, textarea:focus, .form-control:focus, .form-select:focus {
+  color: #163c27;
+  background-color: var(--form-focus-bg);
+  border-color: var(--form-focus);
+  box-shadow: 0 0 0 4px rgba(8,120,62,.15);
+}
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus::placeholder,
+textarea:focus::placeholder { color: #71877a; }
+input:required:invalid:not(:placeholder-shown), textarea:required:invalid:not(:placeholder-shown),
+select:required:invalid { border-color: #d92d20; }
+input:required:valid:not(:placeholder-shown), textarea:required:valid:not(:placeholder-shown) { border-color: #2e8b57; }
+form [aria-invalid="true"] { border-color: #b42318 !important; background: #fff7f6 !important; }
+@media (max-width: 650px) {
+  .stack-form label, .news-form-grid label, .panel form label, .content-narrow form label { padding: 8px; }
+}

@@ -28,8 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 require dirname(__DIR__) . '/app/views/header.php';
 ?>
-<div class="auth-layout"><div class="auth-aside"><span class="eyebrow">CITIZEN ACCESS</span><h1>Public services, without the runaround.</h1><p>Create an account to report issues, follow progress and keep your service requests in one place.</p><div class="aside-feature">✓ &nbsp; One dashboard for your requests</div><div class="aside-feature">✓ &nbsp; Clear status updates</div><div class="aside-feature">✓ &nbsp; Reference number for every case</div></div>
-<div class="form-card"><span class="eyebrow">GET STARTED</span><h2>Create your account</h2><p class="muted">Enter your details below to register as a citizen.</p>
+<div class="auth-layout">
+    <div class="auth-aside"><span class="eyebrow">CITIZEN ACCESS</span><h1>Public services, without the runaround.</h1><p>Create an account to report issues, follow progress and keep your service requests in one place.</p>
+    <div class="aside-feature">✓ &nbsp; One dashboard for your requests</div>
+    <div class="aside-feature">✓ &nbsp; Clear status updates</div>
+    <div class="aside-feature">✓ &nbsp; Reference number for every case</div>
+</div>
+<div class="form-card"><span class="eyebrow">GET STARTED</span><h2>Create your account</h2>
+<p class="muted">Enter your details below to register.</p>
 <?php foreach ($errors as $error): ?><div class="alert error"><?= e($error) ?></div><?php endforeach; ?>
 <form method="post" class="stack-form">
 <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
@@ -38,5 +44,8 @@ require dirname(__DIR__) . '/app/views/header.php';
 <label>Phone number <span class="optional">(optional)</span><input name="phone" value="<?= e($phone) ?>" autocomplete="tel"></label>
 <label>Password<input type="password" name="password" minlength="8" required autocomplete="new-password"><small>The password must be 8 character long.</small></label>
 <button class="button primary full" type="submit">Create account →</button>
-</form><p class="form-switch">Already registered? <a href="login.php">Sign in</a></p></div></div>
+</form>
+<p class="form-switch">Already registered? <a href="login.php">Sign in</a></p>
+</div>
+</div>
 <?php require dirname(__DIR__) . '/app/views/footer.php'; ?>

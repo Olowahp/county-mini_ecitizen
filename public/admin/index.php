@@ -54,5 +54,36 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
         <div><h2>Recently submitted requests</h2>
         <p>Latest activity across the portal.</p></div><a class="text-link" href="admin/requests.php">View all →</a>
     </div>
-<?php if (!$recent): ?><div class="empty-state compact"><h3>No requests yet</h3><p>New citizen requests will appear here.</p></div><?php else: ?><div class="table-wrap"><table><thead><tr><th>Reference</th><th>Citizen</th><th>Service</th><th>Location</th><th>Status</th><th>Submitted</th><th></th></tr></thead><tbody><?php foreach ($recent as $r): ?><tr><td class="reference"><?= e($r['reference_no']) ?></td><td><?= e($r['citizen_name']) ?></td><td><?= e($r['category_name']) ?></td><td><?= e($r['location']) ?></td><td><span class="status-pill <?= status_class($r['status']) ?>"><?= e($r['status']) ?></span></td><td><?= e(date('d M Y', strtotime($r['created_at']))) ?></td><td><a class="table-link" href="admin/request-edit.php?id=<?= (int)$r['id'] ?>">Manage →</a></td></tr><?php endforeach; ?></tbody></table></div><?php endif; ?></section>
+<?php if (!$recent): ?>
+    <div class="empty-state compact"><h3>No requests yet</h3>
+    <p>New citizen requests will appear here.</p></div>
+    <?php else: ?><div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Citizen</th>
+                    <th>Service</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recent as $r): ?>
+                    <tr>
+                        <td class="reference"><?= e($r['reference_no']) ?></td>
+                        <td><?= e($r['citizen_name']) ?></td><td><?= e($r['category_name']) ?></td>
+                        <td><?= e($r['location']) ?></td>
+                        <td><span class="status-pill <?= status_class($r['status']) ?>"><?= e($r['status']) ?></span></td>
+                        <td><?= e(date('d M Y', strtotime($r['created_at']))) ?></td>
+                        <td><a class="table-link" href="admin/request-edit.php?id=<?= (int)$r['id'] ?>">Manage →</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php endif; ?>
+    </section>
 <?php require dirname(__DIR__, 2) . '/app/views/footer.php'; ?>

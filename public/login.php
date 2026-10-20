@@ -26,12 +26,15 @@ require dirname(__DIR__) . '/app/views/header.php';
     <div class="aside-feature">✓ &nbsp; Secure access to your requests</div>
 <div class="aside-feature">✓ &nbsp; Updates from service administrators</div>
 </div>
-<div class="form-card"><span class="eyebrow">CITIZEN / ADMIN</span><h2>Sign in to your account</h2><p class="muted">Use the email and password associated with your account.</p>
+<div class="form-card"><span class="eyebrow">CITIZEN / ADMIN</span><h2>Sign in to your account</h2>
+<p class="muted">Use the email and password associated with your account.</p>
 <?php if ($error): ?><div class="alert error"><?= e($error) ?></div><?php endif; ?>
-<form method="post" class="stack-form"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+<form method="post" class="stack-form">
+    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
 <label>Email address<input type="email" name="email" value="<?= e($email) ?>" required autocomplete="email"></label>
 <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
 <p class="forgot-link"><a href="forgot-password.php">Forgot your password?</a></p>
-<button class="button primary full" type="submit">Sign in →</button></form>
-<p class="form-switch">Dont have an account? <a href="register.php">Create an account</a></p>
+<button class="button primary full" type="submit">Sign in →</button>
+</form>
+<p class="form-switch">Don't have an account? <a href="register.php">Register here</a></p>
 <?php require dirname(__DIR__) . '/app/views/footer.php'; ?>

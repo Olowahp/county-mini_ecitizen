@@ -20,7 +20,7 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     </div>
 </div>
 
-<div class="admin-nav" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;">
+<div class="admin-nav">
     <a href="admin/index.php">Overview</a>
     <a class="active" href="admin/requests.php">All requests</a>
     <a href="admin/categories.php">Service categories</a>

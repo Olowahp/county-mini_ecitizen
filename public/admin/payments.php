@@ -54,13 +54,15 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     <a href="admin/categories.php">Service categories</a>
     <a href="admin/users.php">Users and staff</a>
     <a class="active" href="admin/payments.php">Water payments</a></div>
-<?php foreach ($errors as $error): ?><div class="alert error"><?= e($error) ?></div><?php endforeach; ?>
+<?php foreach ($errors as $error): ?>
+    <div class="alert error"><?= e($error) ?></div><?php endforeach; ?>
 <div class="detail-grid category-layout">
     <section class="panel">
         <div class="panel-heading"><div><h2>Create payment request</h2>
         <p>Only create a charge after checking the service issue and confirming the amount.</p>
     </div>
 </div>
+
 <form method="post" class="stack-form">
     <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
     <input type="hidden" name="action" value="create">
@@ -88,5 +90,45 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
 </div>
 </section>
 </div>
-<section class="panel"><div class="panel-heading"><div><h2>Payment records</h2><p>Review submitted codes and record verification outcomes.</p></div><span class="step-tag"><?= count($payments) ?> records</span></div><div class="table-wrap"><table><thead><tr><th>Request / citizen</th><th>Amount</th><th>M-Pesa code</th><th>Status</th><th>Instructions / note</th><th>Verify</th></tr></thead><tbody><?php foreach ($payments as $pay): ?><tr><td><strong><?= e($pay['reference_no']) ?></strong><br><?= e($pay['citizen_name']) ?><br><small><?= e($pay['email']) ?></small></td><td>KSh <?= number_format((float)$pay['amount'],2) ?></td><td><strong><?= e($pay['mpesa_code'] ?: 'Not submitted') ?></strong></td><td><span class="status-pill <?= $pay['payment_status']==='Verified'?'success':($pay['payment_status']==='Rejected'?'warning':'info') ?>"><?= e($pay['payment_status']) ?></span></td><td><?= e($pay['admin_note'] ?: '—') ?></td><td><?php if ($pay['payment_status']==='Code Submitted'): ?><form method="post" class="verify-form"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><input type="hidden" name="action" value="verify"><input type="hidden" name="payment_id" value="<?= (int)$pay['id'] ?>"><input name="admin_note" placeholder="Verification note" aria-label="Verification note"><button class="button small primary" name="decision" value="Verified">Verify</button><button class="button small danger" name="decision" value="Rejected">Reject</button></form><?php else: ?><span class="muted">—</span><?php endif; ?></td></tr><?php endforeach; ?><?php if (!$payments): ?><tr><td colspan="6" class="empty-cell">No payment records have been created.</td></tr><?php endif; ?></tbody></table></div></section>
+<section class="panel">
+    <div class="panel-heading"><div>
+        <h2>Payment records</h2>
+        <p>Review submitted codes and record verification outcomes.</p>
+    </div><span class="step-tag"><?= count($payments) ?> records</span></div><div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Request / citizen</th>
+                    <th>Amount</th>
+                    <th>M-Pesa code</th>
+                    <th>Status</th>
+                    <th>Instructions / note</th>
+                    <th>Verify</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($payments as $pay): ?>
+                    <tr>
+                        <td><strong><?= e($pay['reference_no']) ?></strong><br><?= e($pay['citizen_name']) ?><br><small><?= e($pay['email']) ?></small></td>
+                        <td>KSh <?= number_format((float)$pay['amount'],2) ?></td>
+                        <td><strong><?= e($pay['mpesa_code'] ?: 'Not submitted') ?></strong></td>
+                        <td><span class="status-pill <?= $pay['payment_status']==='Verified'?'success':($pay['payment_status']==='Rejected'?'warning':'info') ?>"><?= e($pay['payment_status']) ?></span></td>
+                        <td><?= e($pay['admin_note'] ?: '—') ?></td>
+                        <td><?php if ($pay['payment_status']==='Code Submitted'): ?>
+                            <form method="post" class="verify-form"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><input type="hidden" name="action" value="verify">
+                            <input type="hidden" name="payment_id" value="<?= (int)$pay['id'] ?>">
+                            <input name="admin_note" placeholder="Verification note" aria-label="Verification note">
+                            <button class="button small primary" name="decision" value="Verified">Verify</button>
+                            <button class="button small danger" name="decision" value="Rejected">Reject</button>
+                        </form>
+                        <?php else: ?><span class="muted">—</span><?php endif; ?></td>
+                        </tr>
+                        <?php endforeach; ?><?php if (!$payments): ?>
+                            <tr>
+                            <td colspan="6" class="empty-cell">No payment records have been created.</td>
+                        </tr><?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 <?php require dirname(__DIR__, 2) . '/app/views/footer.php'; ?>

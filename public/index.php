@@ -22,7 +22,7 @@ require dirname(__DIR__) . '/app/views/header.php';
 </section>
 <section class="service-grid home-service-directory">
     <article class="service-card featured-service">
-        <span class="service-icon icon-0">⌁</span><h3>Water and Sanitation Payments</h3><p>Report meter faults, water supply issues, billing concerns, leaks and sewerage problems. Pay when a verified payment request is issued.</p>
+        <span class="service-icon icon-0">⌁</span><h3>Water and Sanitation Payments</h3><p>Report meter faults, water supply issues, billing concerns, leaks and sewerage problems. Pay only when a verified payment request is issued.</p>
         <a href="<?= current_user() ? 'request-create.php' : './login.php' ?>">Open water services <span>↗</span></a>
     </article>
     <article class="service-card featured-service">

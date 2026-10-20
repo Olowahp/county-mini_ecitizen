@@ -55,20 +55,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 require dirname(__DIR__) . '/app/views/header.php';
 ?>
-<div class="page-header"><div><span class="eyebrow">CITIZEN SERVICES</span><h1>Submit a service request</h1><p>Water and sanitation services are listed first. Choose the problem that best describes your issue.</p></div><a class="button ghost" href="dashboard.php">← My requests</a></div>
-<div class="content-narrow panel"><div class="panel-heading"><div><h2>Request details</h2><p>Fields marked with * are required.</p></div><span class="step-tag">STEP 1 OF 1</span></div>
+<div class="page-header">
+    <div><span class="eyebrow">CITIZEN SERVICES</span><h1>Submit a service request</h1>
+    <p>Water and sanitation services are listed first. Choose the problem that best describes your issue.</p></div>
+    <a class="button ghost" href="dashboard.php">← My requests</a>
+</div>
+<div class="content-narrow panel">
+    <div class="panel-heading">
+        <div><h2>Request details</h2>
+        <p>Fields marked with * are required.</p></div><span class="step-tag">STEP 1 OF 1</span></div>
 <?php foreach ($errors as $error): ?><div class="alert error"><?= e($error) ?></div><?php endforeach; ?>
-<form method="post" enctype="multipart/form-data" class="stack-form" id="request-form"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-<label>Service category *<select name="category_id" id="category_id" required><option value="">Select a service</option><?php foreach ($categories as $category): ?><option value="<?= (int)$category['id'] ?>" data-name="<?= e($category['name']) ?>" <?= $categoryId === (int)$category['id'] ? 'selected' : '' ?>><?= e($category['name']) ?></option><?php endforeach; ?></select></label>
+<form method="post" enctype="multipart/form-data" class="stack-form" id="request-form">
+    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+<label>Service category *<select name="category_id" id="category_id" required>
+    <option value="">Select a service</option><?php foreach ($categories as $category): ?>
+        <option value="<?= (int)$category['id'] ?>" data-name="<?= e($category['name']) ?>" <?= $categoryId === (int)$category['id'] ? 'selected' : '' ?>><?= e($category['name']) ?></option>
+        <?php endforeach; ?></select>
+</label>
 <div id="water-fields" class="water-fields" <?= $isWater ? '' : 'hidden' ?>>
-    <label>Water / sanitation problem *<select name="water_problem" id="water_problem"><option value="">Select the problem</option><?php foreach ($waterProblems as $problem): ?><option <?= $waterProblem === $problem ? 'selected' : '' ?>><?= e($problem) ?></option><?php endforeach; ?></select></label>
+    <label>Water / sanitation problem *<select name="water_problem" id="water_problem"><option value="">Select the problem</option><?php foreach ($waterProblems as $problem): ?><option <?= $waterProblem === $problem ? 'selected' : '' ?>><?= e($problem) ?></option>
+        <?php endforeach; ?></select>
+</label>
     <label id="other-problem-wrap" <?= $waterProblem === 'Other' ? '' : 'hidden' ?>>Describe the other problem *<input name="other_problem" id="other_problem" value="<?= e($otherProblem) ?>" placeholder="Describe the water or sanitation issue"></label>
     <p class="helper-note">If your water meter requires repair or replacement, staff may inspect the issue and send a payment request with the amount due. Pay only after the official request appears in your account, then submit your M-Pesa transaction code for administrator verification.</p>
 </div>
 <label>Location *<input name="location" value="<?= e($location) ?>" placeholder="e.g. Kiharu, near the market gate" required><small>Include a village, estate, road, facility or nearby landmark.</small></label>
 <label>Additional details *<textarea name="description" rows="5" minlength="10" required placeholder="Explain what happened, when you noticed it, and any details that may help the service team."><?= e($description) ?></textarea></label>
 <label>Attach an image <span class="optional">(optional, JPG/PNG/WebP up to 5 MB)</span><input type="file" name="image" accept="image/jpeg,image/png,image/webp"></label>
-<div class="form-actions"><a class="button ghost" href="dashboard.php">Cancel</a><button class="button primary" type="submit">Submit request →</button></div></form></div>
+<div class="form-actions"><a class="button ghost" href="dashboard.php">Cancel</a>
+<button class="button primary" type="submit">Submit request →</button></div>
+</form>
+</div>
 <script>
 (() => {
  const category = document.getElementById('category_id');

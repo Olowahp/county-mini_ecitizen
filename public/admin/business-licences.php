@@ -30,7 +30,7 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     <div><span class="eyebrow">LICENSING ADMINISTRATION</span><h1>Business licences</h1>
     <p>Manage the fee schedule, review applications and verify submitted M-Pesa transaction codes.</p></div>
 </div>
-<div class="admin-nav">
+<div class="admin-nav" >
     <a href="admin/index.php">Overview</a>
     <a href="admin/requests.php">All requests</a>
     <a href="admin/categories.php">Service categories</a>
@@ -94,7 +94,7 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
             </tr>
         </thead>
         <tbody><?php if (!$applications): ?><tr>
-            <td colspan="6" class="empty-cell">No business licence applications have been submitted.</td>
+            <td colspan="6" class="empty-cell">You haven't applied for any business licence.</td>
         </tr>
         <?php else: foreach ($applications as $app): ?>
             <tr>
@@ -118,9 +118,11 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
                 <label>Admin note on request or service progess
                     <input name="admin_note" value="<?= e($app['admin_note']) ?>" maxlength="500" placeholder="Optional note to applicant">
                 </label>
-                <button class="button small primary" type="submit">Save review</button><?php if ($app['payment_status']==='Code Submitted'): ?>
+                <button class="button small primary" type="submit">Save review</button>
+                <?php if ($app['payment_status']==='Code Submitted'): ?>
                     <button class="button small primary" name="payment_status" value="Verified" type="submit">Verify M-Pesa payments</button>
-                    <button class="button small danger" name="payment_status" value="Rejected" type="submit">Reject code</button><?php endif; ?>
+                    <button class="button small danger" name="payment_status" value="Rejected" type="submit">Reject code</button>
+                    <?php endif; ?>
                 </form>
             </td>
         </tr>

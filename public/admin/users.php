@@ -68,11 +68,12 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     <a href="admin/business-licences.php">Business licences</a>
     <a href="admin/news.php">News & Notices</a></div>
 <?php foreach ($errors as $error): ?><div class="alert error"><?= e($error) ?></div><?php endforeach; ?>
-<div class="detail-grid category-layout"><section class="panel"><div class="panel-heading">
-    <div><h2>Create user or staff account</h2>
-    <p>Super administrators control access privileges.</p>
+<div class="detail-grid category-layout">
+    <section class="panel">
+        <div class="panel-heading"> <div><h2>Create user or staff account</h2>
+    <p>Super administrators control access privileges.</p></div>
 </div>
-</div>
+
 <form method="post" class="stack-form">
     <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
     <input type="hidden" name="action" value="create">
@@ -86,7 +87,9 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     <label>Temporary password<input type="password" name="password" required minlength="8">
     <small>Please enter a secure password.</small></label>
     <button class="button primary full" type="submit">Create account →</button>
-</form></section>
+</form>
+</section>
+
 <section class="panel">
     <div class="panel-heading">
     <div><h2>Role guide</h2><p>Grant only the access each user needs.</p>

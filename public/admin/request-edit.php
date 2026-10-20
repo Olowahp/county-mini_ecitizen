@@ -62,8 +62,15 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
     <div class="attached-image">
         <h3>Attached image</h3>
         <a href="<?= e(url($request['image_path'])) ?>" target="_blank" rel="noopener"><img src="<?= e(url($request['image_path'])) ?>" alt="Citizen attachment"></a>
-    </div><?php endif; ?></section>
-<section class="panel"><div class="panel-heading"><div><h2>Update case</h2><p>Keep the status and note accurate.</p></div></div>
+    </div><?php endif; ?>
+</section>
+<section class="panel">
+    <div class="panel-heading">
+        <div><h2>Update case</h2>
+        <p>Keep the status and note accurate.</p>
+    </div>
+</div>
+
 <form method="post" class="stack-form">
     <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
     <label>Request status<select name="status" required><?php foreach (['Pending','In Progress','Resolved'] as $s): ?>

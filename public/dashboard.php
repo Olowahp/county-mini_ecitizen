@@ -34,13 +34,15 @@ require dirname(__DIR__) . '/app/views/header.php';
 <a class="service-card" href="water-payment.php"><span class="service-icon icon-2">KSh</span><h3>Water service payments</h3>
 <p>View assessed water-related charges and submit your M-Pesa transaction code.</p><span class="service-card-link">View payments →</span></a>
 <a class="service-card" href="news.php"><span class="service-icon icon-3">▣</span><h3>County news and notices</h3>
-<p>Read public notices, service updates, and county announcements.</p><span class="service-card-link">Read updates →</span></a>
+<p>Read public notices, service updates, and county announcements.</p><span class="service-card-link">Follow updates →</span></a>
 </section>
+
 <div class="stats-grid three">
     <div class="stat-card"><span>Total requests</span><strong><?= count($requests) ?></strong><small>All submitted cases</small></div>
     <div class="stat-card"><span>Open requests</span><strong><?= $open ?></strong><small>Awaiting resolution</small></div>
     <div class="stat-card"><span>Resolved</span><strong><?= $resolved ?></strong><small>Completed cases</small></div>
 </div>
+
 <section class="panel"><div class="panel-heading">
     <div><h2>Your requests</h2>
 <p>Use your reference number when following up.</p>

@@ -84,23 +84,41 @@ require dirname(__DIR__) . '/app/views/header.php';
 <label>National ID / identification number<input name="id_number" required maxlength="20" value="<?= e($_POST['id_number'] ?? '') ?>" autocomplete="off"></label>
 <label>Phone number<input name="phone" type="tel" required maxlength="16" value="<?= e($_POST['phone'] ?? $user['phone'] ?? '') ?>" placeholder="07XX XXX XXX"></label>
 <label class="wide">Business name<input name="business_name" required maxlength="180" value="<?= e($_POST['business_name'] ?? '') ?>" placeholder="Name of the business"></label>
-<label>Business size<select name="business_size" id="business_size" required><option value="">Select size</option><?php foreach (['Small','Medium','Large'] as $size): ?><option value="<?= $size ?>" <?= (($_POST['business_size'] ?? '')===$size)?'selected':'' ?>><?= $size ?></option><?php endforeach; ?></select><small>Choose according to the county's business classification.</small></label>
-<label>Licence period<select name="term_years" id="term_years" required><option value="">Select period</option><?php foreach ([1,3,7] as $years): ?><option value="<?= $years ?>" <?= ((int)($_POST['term_years'] ?? 0)===$years)?'selected':'' ?>><?= $years ?> year<?= $years===1?'':'s' ?></option><?php endforeach; ?></select></label>
-<label>Sub-county<select name="subcounty" id="subcounty" required><option value="">Select sub-county</option><?php foreach ($subcounties as $name=>$wards): ?><option value="<?= e($name) ?>" <?= (($_POST['subcounty'] ?? '')===$name)?'selected':'' ?>><?= e($name) ?></option><?php endforeach; ?></select></label>
+<label>Business size<select name="business_size" id="business_size" required>
+    <option value="">Select size</option><?php foreach (['Small','Medium','Large'] as $size): ?>
+        <option value="<?= $size ?>" <?= (($_POST['business_size'] ?? '')===$size)?'selected':'' ?>><?= $size ?></option>
+        <?php endforeach; ?></select><small>Choose the class of your business.</small>
+    </label>
+<label>Licence period<select name="term_years" id="term_years" required>
+    <option value="">Select period</option>
+    <?php foreach ([1,3,7] as $years): ?>
+        <option value="<?= $years ?>" <?= ((int)($_POST['term_years'] ?? 0)===$years)?'selected':'' ?>><?= $years ?> year<?= $years===1?'':'s' ?></option>
+        <?php endforeach; ?></select>
+    </label>
+<label>Sub-county<select name="subcounty" id="subcounty" required>
+    <option value="">Select sub-county</option>
+    <?php foreach ($subcounties as $name=>$wards): ?>
+        <option value="<?= e($name) ?>" <?= (($_POST['subcounty'] ?? '')===$name)?'selected':'' ?>><?= e($name) ?></option>
+        <?php endforeach; ?>
+    </select>
+</label>
+
 <label>Ward<select name="ward" id="ward" required><option value="">Select ward</option></select></label>
-<label class="wide">Specific area / location<input name="area" required maxlength="180" value="<?= e($_POST['area'] ?? '') ?>" placeholder="Enter village, estate, street, market or landmark"><small>Choose the sub-county and ward above, then enter the exact local area manually.</small></label>
+<label class="wide">Specific area / location<input name="area" required maxlength="180" value="<?= e($_POST['area'] ?? '') ?>" placeholder="Enter village, estate, street, market or nearest-landmark"><small>Choose the sub-county and ward above, then enter the exact local area manually.</small></label>
 </div>
 <div class="rate-preview helper-note" id="rate-preview">Select business size and licence period to see the configured fee. All fees shown are demo values until replaced with officially approved county rates.</div>
-<div class="form-actions"><button class="button primary" type="submit">Submit application →</button></div></form></div>
+<div class="form-actions"><button class="button primary" type="submit">Submit application →</button></div>
+</form></div>
+
 <section class="panel">
     <div class="panel-heading">
         <div><h2>Your applications</h2>
-        <p>Track application and payment verification status.</p>
+        <p>Track the application and payment verification status.</p>
     </div>
 </div>
 <?php if (!$applications): ?>
     <div class="empty-state"><h3>No business licence applications yet</h3>
-    <p>Your registrations and renewals will appear here after submission.</p>
+    <p>Your registrations and renewals will appear here after the submission of your application.</p>
 </div>
 <?php else: ?>
     <div class="table-wrap">

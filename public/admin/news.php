@@ -104,7 +104,8 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
                             <form method="post" style="display:inline" onsubmit="return confirm('Delete this announcement?')">
                                 <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                                 <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="id" value="<?= (int)$post['id'] ?>"><button class="table-link" style="border:0;background:none;cursor:pointer" type="submit">Delete</button>
+                                <input type="hidden" name="id" value="<?= (int)$post['id'] ?>">
+                                <button class="table-link" style="border:0;background:none;cursor:pointer" type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>

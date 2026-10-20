@@ -73,7 +73,7 @@ require dirname(__DIR__, 2) . '/app/views/header.php';
         <input type="hidden" name="action" value="create">
         <label>Category name<input name="name" required minlength="3" placeholder="e.g. Licensing and permits"></label>
         <label>Description<textarea name="description" rows="4" placeholder="Briefly explain which requests belong here."></textarea></label>
-        <button class="button primary full" type="submit">Add category →</button>
+        <button class="button primary full" type="submit">Add new service category →</button>
     </form>
 </section>
 </div>
